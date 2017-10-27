@@ -30,19 +30,31 @@ tns plugin add nativescript-aws-cognito
 ```
 
 ## Usage 
+This plugin works only UnAuth, You Should give permission to UnAuth role for Dynamodb. [You Would this url.](http://docs.aws.amazon.com/mobile/sdkforios/developerguide/dynamodb-setup-for-ios.html)
 
+```javascript
+    	import { AwsDynamo, DynamoCommonDelegate } from 'nativescript-aws-dynamo';
+```)
 
-	
-	```javascript
-    import { AwsDynamo, DynamoCommonDelegate } from 'nativescript-aws-dynamo';
-    ```)
+You Should import plugin. You Should AwsDynamo object and DynamoCommonDelegate imlement. Your class Should implement from DynamoCommonDelegate.
 
-	```javascript
-    this.awsDynamo = new AwsDynamo();
-    this.awsDynamo.initDdb("AWSRegionUSEast2", "us-east-2:77218a3c-b958-41qw-bf14-984d54adba56");
-    ```)
+```javascript
+    	interface DynamoCommonDelegate{
+    		onError(error:String);
+    		onSuccess(result:any);
+		}
+```)
+    
+You Should create AwsDynamo instance and call initDdb method. You give region and your identity pool id. You would look AWS documantation for more information.
 
-	```javascript
+```javascript
+    	this.awsDynamo = new AwsDynamo();
+    	this.awsDynamo.initDdb("AWSRegionUSEast2", "us-east-2:77218a3c-b958-41qw-bf14-984d54adba56");
+```
+
+You Should these methods for CRUD operation. All Methods Async, you Should DynamoCommonDelegate instance to methods.
+
+```javascript
      this.awsDynamo.putItem("Books", [{ key: "ISBN", value: { data: "8", type: "S" } },
     { key: "Author", value: { data: "ali4", type: "S" } },
     { key: "Title", value: { data: "deneme4", type: "S" } },
@@ -50,21 +62,20 @@ tns plugin add nativescript-aws-cognito
     { key: "boolen", value: { type: "BO", data: true } },
     { key: "set1", value: { type: "SS", data: ["set1", "set2"] } }
     ], this);
-    ```)
+```
 
 
-	```javascript
+```javascript
      this.awsDynamo.getItem("Books",[{"key":"ISBN","value":{data:"10", type:"S"}}], this);
-    ```)
+```
 
-	```javascript
+```javascript
      this.awsDynamo.deleteItem("Books",[{"key":"ISBN","value":{data:"4", type:"S"}}], this);
-    ```)
+```
 
-
-	```javascript
+```javascript
      this.awsDynamo.updateItem("Books",[{"key":"ISBN","value":{data:"3", type:"S"}}], [{key:"set2", value:{type:"SS", data:["set1","set2"]},"action":"PUT"}] , this);
-    ```)
+```
 
 ## API
 
